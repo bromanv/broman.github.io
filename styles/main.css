@@ -1,25 +1,38 @@
 a-scene > div {
-    font-family: Roboto, sans-serif;
-    color: white; 
-    position: absolute; 
-    z-index: 999
+  font-family: Roboto, sans-serif;
+  color: white;
+  position: absolute;
+  z-index: 999;
 }
 
 #status {
-    top:50%; 
-    left:0%; /*calc(50% - 100px); */
-	width:100%;
-	text-align: center;
-    font-size: 150%;
-    font-weight: bold;
+  top: 50%;
+  left: 0%; /*calc(50% - 100px); */
+  width: 100%;
+  text-align: center;
+  font-size: 150%;
+  font-weight: bold;
 }
 
 #hud {
-    font-size: 100%;
-    top: calc(100% - 32px);    
-    left: 0%;
+  position: absolute;
+  left: 10px;
+  bottom: 2%;
+  z-index: 999;
+  background-color: blue;
+  color: white;
+  padding: 10px;
 }
 
 a-scene > div > span {
-    padding: 5px;
+  padding: 5px;
+}
+
+@keyframes color-key-frame {
+  from {color: white;}
+  to {color: red;}
+}
+.color-animation {
+  animation-name: color-key-frame ;
+  animation-duration: 1s;
 }

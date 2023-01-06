@@ -22,24 +22,47 @@
 
 <body style="margin: 0; overflow: hidden;">
     <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
-        <div id="hud">
-            FOV<span id="fov"></span>
-            Lat<span id="lat"></span>
-            Lon<span id="lon"></span>
-            Alt<span id="alt"></span>m
-        </div>
-        <a-box look-at="[gps-camera]" material="color: yellow" scale="10 10 10"
+
+        <a-box look-at="[gps-new-camera]" material="color: yellow" scale="10 10 10"
             gps-entity-place="latitude: 10.008654614573357; longitude: -84.05405405434371;"></a-box>
-        <a-box look-at="[gps-camera]" material="color: red" scale="10 10 10"
+        <a-box look-at="[gps-new-camera]" material="color: red" scale="10 10 10"
             gps-entity-place="latitude: 10.007754614573357; longitude: -84.05475405434371;"></a-box>
-        <a-camera gps-camera rotation-reader> </a-camera>
+        <a-camera gps-new-camera rotation-reader> </a-camera>
     </a-scene>
+    <div id="hud">
+        Lat&nbsp;<span id="lat"></span>
+        Lon&nbsp;<span id="lon"></span>
+    </div>
     <script>
+        function styleIt(id) {
+            //inside your ajax callBack
+            var node = document.getElementById(id);
+
+            //remove prev adjusted class first
+            if (node.classList.contains('color-animation')) {
+                node.classList.remove('color-animation');
+            }
+            //hack to skip one tick
+            setTimeout(setTimeout(function () {
+                node.classList.add('color-animation');
+            }, 0));
+        }
         window.onload = () => {
-            const el = document.querySelector("[gps-camera]");
+            const el = document.querySelector("[gps-new-camera]");
             el.addEventListener("gps-camera-update-position", e => {
-                document.getElementById("lon").textContent = e.detail.position.longitude;
-                document.getElementById("lat").textContent = e.detail.position.latitude;
+
+                let lon = document.getElementById("lon");
+                let lat = document.getElementById("lat");
+                if (lon.textContent != e.detail.position.longitude.toString()) {
+                    styleIt('lon');
+                    lon.textContent = e.detail.position.longitude.toString();
+
+                }
+                if (lat.textContent != e.detail.position.latitude.toString()) {
+                    styleIt('lat');
+                    lat.textContent = e.detail.position.latitude.toString();
+                }
+
             });
         };
     </script>
